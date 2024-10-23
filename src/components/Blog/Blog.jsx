@@ -1,7 +1,8 @@
 import PropTypes from "prop-types"
+import { FaBookmark } from "react-icons/fa6";
 
-export default function Blog({blog}){
-    const {cover,title,reading_time, author, author_img,hashtags,posted_date} = blog
+export default function Blog({blog,handleBookmark,handleMarkAsRead}){
+    const {id,cover,title,reading_time, author, author_img,hashtags,posted_date} = blog
     return(
         <div className="flex flex-col space-y-4 border-b-2 mb-8 pb-4">
             <img className="w-full rounded-lg" src={cover} alt={`cover img for ${title}`} />
@@ -13,9 +14,12 @@ export default function Blog({blog}){
                         <p>{posted_date}</p>
                     </div>
                 </div>
-                <div>
+                <div className="inline-flex items-center gap-2 ">
                     <span>{reading_time} min read</span>
-                    <button>Bookmark</button>
+                    <button
+                      onClick={()=>handleBookmark(blog)}
+                    
+                    > <FaBookmark /> </button>
                 </div>
             </div>
 
@@ -25,11 +29,15 @@ export default function Blog({blog}){
                     hashtags.map((hash, idx)=>(<p className="text-gray-500 text-base" key={idx} >#{hash}</p>))
                 }
             </div> 
-            <button className="text-purple-500 font-bold text-start underline">Mark As Read</button>
+            <button 
+            onClick={()=>handleMarkAsRead(id, reading_time)}
+            className="text-purple-500 font-bold text-start underline">Mark As Read</button>
         </div>
     )
 }
 
 Blog.propTypes = {
-    blog:PropTypes.object
+    blog:PropTypes.object,
+    handleBookmark:PropTypes.func,
+    handleMarkAsRead:PropTypes.func,
 }
